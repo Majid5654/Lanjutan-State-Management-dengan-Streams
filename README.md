@@ -89,3 +89,54 @@ The difference between listen and await for is that listen() reacts to stream ev
 - Capture your practical results in GIF format and attach them to the README
 
 ![result](IMG/3.gif)
+
+## Question 7
+
+- Explain the meaning of the code steps 13 to 15!
+
+Step 13
+
+```.dart:
+void addError() {
+    controller.sink.addError('error');
+  }
+```
+
+The addError() method is used to send an error into the stream. The line controller.sink.addError('error') sends an error event with the message 'error' into the stream. This means that any listener subscribed to the stream will receive this error and can respond accordingly, such as displaying an error message or updating the UI.
+
+Step 14
+
+```.dart:
+.onError((error) {
+  setState(() {
+    lastNumber = -1;
+  });
+});
+
+```
+
+The .onError() method is used to handle errors coming from the stream. When an error is received, the callback function inside onError is triggered. In this case, when an error occurs, lastNumber is set to -1, which likely serves as an indicator that an error has happened or that no valid data has been received.
+
+step 15
+
+```.dart:
+void addRandomNumber() {
+  Random random = Random();
+  //int myNum = random.nextInt(10);
+  //numberStream.addNumberToSink(myNum);
+  numberStream.addError();
+}
+```
+
+The addRandomNumber() method is normally used to generate a random number and add it to the stream. However, in this case, the code that generates the random number has been commented out, and instead the method calls numberStream.addError(). This means that when the button or action triggering addRandomNumber() is executed, it no longer sends a random number but instead sends an error to the stream using addError()
+
+- Return the code to its original state in Step 15, comment addError()it so you can proceed to the next practical 3
+
+```.dart:
+void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10);
+    numberStream.addNumberToSink(myNum);
+    //numberStream.addError();
+  }
+```
