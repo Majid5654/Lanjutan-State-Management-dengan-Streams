@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'stream.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stream-Erwan Majid',
+      title: 'Stream Erwan Majid',
       theme: ThemeData(primarySwatch: Colors.brown),
       home: const StreamHomePage(),
     );
@@ -25,8 +26,29 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
+  Color bgColor = Colors.blueGrey;
+  late ColorStream colorStream;
+
+  @override
+  void initState() {
+    super.initState();
+    colorStream = ColorStream();
+    changeColor(); // mulai stream
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Stream Erwan Majid')),
+      body: Container(decoration: BoxDecoration(color: bgColor)),
+    );
+  }
+
+  void changeColor() async {
+    await for (var eventColor in colorStream.getColors()) {
+      setState(() {
+        bgColor = eventColor;
+      });
+    }
   }
 }
