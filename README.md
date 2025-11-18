@@ -15,3 +15,25 @@ Widget build(BuildContext context) {
     );
   }
 ```
+
+## Question 2
+
+Add 5 more colors as you wish to colors the variable
+
+```.dart:
+  final List<Color> colors = [
+  Colors.blueGrey,
+  Colors.amber,
+  Colors.deepPurple,
+  Colors.lightBlue,
+  Colors.teal,
+
+ Colors.red,
+  Colors.green,
+  Colors.orange,
+  Colors.pink,
+  Colors.indigo,
+];
+```
+
+

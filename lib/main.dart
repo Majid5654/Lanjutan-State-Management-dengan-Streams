@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stream-Erwan Majid',
-      theme: ThemeData(primarySwatch: Colors.brown[100]),
+      theme: ThemeData(primarySwatch: Colors.brown),
       home: const StreamHomePage(),
     );
   }
