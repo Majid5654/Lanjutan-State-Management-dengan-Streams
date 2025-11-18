@@ -140,3 +140,23 @@ void addRandomNumber() {
     //numberStream.addError();
   }
 ```
+
+# Lab 3: Injecting data into streams
+
+- Explain the meaning of the code steps 1-3!
+
+Step 1 – Creating the StreamTransformer
+
+In this step, a StreamTransformer is created to modify the incoming data. Every value is multiplied by 10, and if an error occurs, the transformer sends -1 instead. This prepares the data before it reaches the listener
+
+Step 2 – Applying the Transformer to the Stream
+
+Next, the original stream is connected to the transformer using .transform(transformer). This means all incoming data will be processed by the transformer before being passed to the listener.
+
+Step 3 – Listening to the Transformed Stream
+
+Finally, the listener receives the transformed data. Each new value updates the UI through setState(), and if an error happens, the listener sets the displayed value to -1 as an error indicator
+
+- Capture your practical results in GIF format and attach them to the README.
+
+  ![result](IMG/4.gif)
