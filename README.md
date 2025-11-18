@@ -73,3 +73,19 @@ Result:
 
 Asnwer :
 The difference between listen and await for is that listen() reacts to stream events using a callback without waiting, so the app continues running normally while updating the UI whenever new data arrives. Meanwhile, await for waits for each stream event inside a loop, meaning the function pauses until the next value comes, although the UI still stays responsive. In short, listen is event-based and does not wait, while await for is loop-based and waits for events sequentially
+
+# Lab 2: Stream controllers and sinks
+
+## Question 6
+
+- Explain the meaning of the code steps 8 and 10!
+
+  In Step 8, the initState() method initializes the necessary components for working with a stream of numbers. First, it creates an instance of NumberStream, which manages the stream. Then, it retrieves the StreamController from the NumberStream object, which is used to add data to the stream and control the stream's lifecycle. The stream itself is obtained from the controller, and a listener is added using stream.listen(). This listener waits for new events (numbers) that are added to the stream. Whenever a new number is received, the setState() method is called to update the lastNumber value, causing the UI to refresh and display the latest number.
+
+  In Step 10, the addRandomNumber() method generates a random number using Dart’s Random class. It creates a random integer between 0 and 9 by calling random.nextInt(10). This random number is then passed to the stream using numberStream.addNumberToSink(myNum), which adds the number to the stream’s controller. As a result, the number is sent to the stream, and the listener from Step 8 receives the event, which triggers the UI to update and display the new number.
+
+  In summary, Step 8 connects the UI to the stream, so whenever a new number is added, the UI updates. Step 10 generates a random number and sends it to the stream, which the listener in Step 8 then processes and updates the display.
+
+- Capture your practical results in GIF format and attach them to the README
+
+![result](IMG/3.gif)
