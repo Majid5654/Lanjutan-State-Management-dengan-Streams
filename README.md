@@ -143,6 +143,8 @@ void addRandomNumber() {
 
 # Lab 3: Injecting data into streams
 
+## Question 8
+
 - Explain the meaning of the code steps 1-3!
 
 Step 1 – Creating the StreamTransformer
@@ -160,3 +162,37 @@ Finally, the listener receives the transformed data. Each new value updates the 
 - Capture your practical results in GIF format and attach them to the README.
 
   ![result](IMG/4.gif)
+
+# Lab 4: Multiple stream subscriptions
+
+## Question 9
+
+- Explain the meaning of the code steps 2, 6 and 8!
+
+Step 2 – initState()
+
+In this step, the stream and its controller are initialized. NumberStream is created, its controller is accessed, and stream.listen() starts listening for new numbers from the stream. When a number is received, setState() updates the UI with the new value.
+
+Step 6 – dispose()
+
+The subscription.cancel() in dispose() stops the stream listener when the page is closed. This prevents the app from continuing to listen to the stream and avoids memory leaks.
+
+Step 8 – addRandomNumber()
+
+In this step, a random number is generated and added to the stream if the stream is not closed. If the controller is closed, it does not send the number and shows -1 as an error indicator.
+
+# Lab 5: Multiple stream subscriptions
+
+## Question 10
+
+- Explain why this error could occur?
+
+The error message "Bad state: Stream has already been listened to" occurs when a stream has been listened to more than once without using the correct approach, because a stream can only be listened to by one listener at a time.
+
+## Question 11
+
+![result](IMG/5.gif)
+
+- Explain why this could happen?
+
+When the button is pressed, two numbers appear because the same stream is being listened to by two different listeners. Each listener reacts to the new event coming from the stream, so when a single number is added, Listener 1 updates the “lastNumber” text, and Listener 2 appends the same number to the “values” text. Since both listeners receive the same event at the same time, it looks like two numbers are produced, but actually one number is sent and processed twice by two listeners

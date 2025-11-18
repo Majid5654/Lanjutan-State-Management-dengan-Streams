@@ -28,6 +28,9 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
+  late StreamSubscription subscription2;
+  late StreamSubscription subscription;
+  String values = "";
   late StreamTransformer transformer;
   int lastNumber = 0;
   late StreamController numberstreamController;
@@ -38,34 +41,35 @@ class _StreamHomePageState extends State<StreamHomePage> {
 
   @override
   void initState() {
+    super.initState();
+
     numberStream = NumberStream();
     numberstreamController = numberStream.controller;
-    Stream stream = numberstreamController.stream;
 
-    transformer = StreamTransformer<int, int>.fromHandlers(
-      handleData: (value, sink) {
-        sink.add(value * 10); 
-      },
-      handleError: (error, trace, sink) {
-        sink.add(-1); 
-      },
-      handleDone: (sink) => sink.close(),
-    );
+    Stream stream = numberstreamController.stream.asBroadcastStream();
 
-    stream
-        .transform(transformer)
-        .listen((event) {
-          setState(() {
-            lastNumber = event; 
-          });
-        })
-        .onError((error) {
-          setState(() {
-            lastNumber = -1; 
-          });
-        });
+    // Listener pertama
+    subscription = stream.listen((event) {
+      setState(() {
+        lastNumber = event; // Update UI dengan hasil stream
+      });
+    });
 
-    super.initState();
+    // Listener kedua (menambahkan event ke values dua kali)
+    subscription2 = stream.listen((event) {
+      setState(() {
+        values += '$event - '; // Menambahkan event ke values
+      });
+    });
+  }
+
+  void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10);
+
+    // Menambahkan angka dua kali
+    numberStream.addNumberToSink(myNum); // Pertama kali
+    numberStream.addNumberToSink(myNum); // Kedua kali
   }
 
   @override
@@ -78,10 +82,22 @@ class _StreamHomePageState extends State<StreamHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Tampilkan hanya 1 angka baru setiap klik
             Text(lastNumber.toString()),
+
+            // Menambahkan values untuk event-stream
+            Text(values),
+
+            // Tombol untuk menghasilkan angka acak
             ElevatedButton(
               onPressed: () => addRandomNumber(),
-              child: Text('New Random Number'),
+              child: const Text('New Random Number'),
+            ),
+
+            // Tombol untuk menghentikan stream
+            ElevatedButton(
+              onPressed: () => stopStream(),
+              child: const Text('Stop Stream'),
             ),
           ],
         ),
@@ -89,28 +105,9 @@ class _StreamHomePageState extends State<StreamHomePage> {
     );
   }
 
-  void changeColor() async {
-    //await for (var eventColor in colorStream.getColors()) {
-    //setState(() {
-    //bgColor = eventColor;
-    //});
-    colorStream.getColors().listen((eventColor) {
-      setState(() {
-        bgColor = eventColor;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    numberstreamController.close(); // menutup stream
-    super.dispose();
-  }
-
-  void addRandomNumber() {
-    Random random = Random();
-    int myNum = random.nextInt(10);
-    numberStream.addNumberToSink(myNum);
-    //numberStream.addError();
+  // Fungsi untuk menghentikan stream
+  void stopStream() {
+    subscription.cancel();
+    subscription2.cancel();
   }
 }
