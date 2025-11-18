@@ -62,3 +62,14 @@ creates a stream that produces one color every second by repeatedly calculating 
 Capture your practical results in GIF format and attach them to the README.
 
 ![result](IMG/1.gif)
+
+## Question 5
+
+Result:
+
+![result](IMG/2.gif)
+
+- Explain the difference between using listen and await for(step 9)!
+
+Asnwer :
+The difference between listen and await for is that listen() reacts to stream events using a callback without waiting, so the app continues running normally while updating the UI whenever new data arrives. Meanwhile, await for waits for each stream event inside a loop, meaning the function pauses until the next value comes, although the UI still stays responsive. In short, listen is event-based and does not wait, while await for is loop-based and waits for events sequentially
